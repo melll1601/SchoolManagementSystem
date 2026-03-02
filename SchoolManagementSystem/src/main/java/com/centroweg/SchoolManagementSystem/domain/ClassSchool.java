@@ -1,20 +1,20 @@
 package com.centroweg.SchoolManagementSystem.domain;
 
-public class Class {
+public class ClassSchool {
 
     private Long id;
     private String name;
     private Long courseId;
     private Long teacherId;
 
-    public Class(Long id, String name, Long courseId, Long teacherId) {
+    public ClassSchool(Long id, String name, Long courseId, Long teacherId) {
         this.id = id;
         this.name = name;
         this.courseId = courseId;
         this.teacherId = teacherId;
     }
 
-    public Class(String name, Long courseId, Long teacherId) {
+    public ClassSchool(String name, Long courseId, Long teacherId) {
         this.name = name;
         this.courseId = courseId;
         this.teacherId = teacherId;

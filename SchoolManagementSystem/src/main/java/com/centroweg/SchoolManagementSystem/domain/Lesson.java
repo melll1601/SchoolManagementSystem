@@ -2,20 +2,20 @@ package com.centroweg.SchoolManagementSystem.domain;
 
 import java.time.LocalDateTime;
 
-public class Classroom {
+public class Lesson {
     private Long id;
     private Long classId;
     private LocalDateTime dateTime;
     private String subject;
 
-    public Classroom(Long id, Long classId, LocalDateTime dateTime, String subject) {
+    public Lesson(Long id, Long classId, LocalDateTime dateTime, String subject) {
         this.id = id;
         this.classId = classId;
         this.dateTime = dateTime;
         this.subject = subject;
     }
 
-    public Classroom(Long classId, LocalDateTime dateTime, String subject) {
+    public Lesson(Long classId, LocalDateTime dateTime, String subject) {
         this.classId = classId;
         this.dateTime = dateTime;
         this.subject = subject;
