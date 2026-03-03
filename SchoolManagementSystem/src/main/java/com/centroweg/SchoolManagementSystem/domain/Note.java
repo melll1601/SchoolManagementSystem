@@ -3,19 +3,19 @@ package com.centroweg.SchoolManagementSystem.domain;
 public class Note {
     private Long id;
     private Long studentId;
-    private Long classroomId;
+    private Long lessonId;
     private double value;
 
-    public Note(Long id, Long studentId, Long classroomId, double value) {
+    public Note(Long id, Long studentId, Long lessonId, double value) {
         this.id = id;
         this.studentId = studentId;
-        this.classroomId = classroomId;
+        this.lessonId = lessonId;
         this.value = value;
     }
 
-    public Note(Long studentId, Long classroomId, double value) {
+    public Note(Long studentId, Long lessonId, double value) {
         this.studentId = studentId;
-        this.classroomId = classroomId;
+        this.lessonId = lessonId;
         this.value = value;
     }
 
@@ -35,19 +35,19 @@ public class Note {
         this.studentId = studentId;
     }
 
-    public Long getClassroomId() {
-        return classroomId;
-    }
-
-    public void setClassroomId(Long classroomId) {
-        this.classroomId = classroomId;
-    }
-
     public double getValue() {
         return value;
     }
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    public Long getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(Long lessonId) {
+        this.lessonId = lessonId;
     }
 }

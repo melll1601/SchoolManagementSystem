@@ -8,20 +8,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class LessonMapper {
 
-    public Lesson forEntity(LessonRequestDto lessonRequestDto){
+    public Lesson forEntity(LessonRequestDto classroomRequestDto){
         return new Lesson(
-                lessonRequestDto.classId(),
-                lessonRequestDto.dateTime(),
-                lessonRequestDto.subject()
+                classroomRequestDto.classId(),
+                classroomRequestDto.dateTime(),
+                classroomRequestDto.subject()
         );
     }
 
-    public LessonResponseDto forResponseDto(Lesson lesson){
+    public LessonResponseDto forResponseDto(Lesson classroom){
         return new LessonResponseDto(
-                lesson.getId(),
-                lesson.getClassId(),
-                lesson.getDateTime(),
-                lesson.getSubject()
+                classroom.getId(),
+                classroom.getClassId(),
+                classroom.getDateTime(),
+                classroom.getSubject()
         );
     }
 }
