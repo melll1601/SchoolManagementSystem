@@ -21,7 +21,7 @@ public class NoteService {
     }
 
     public NoteResponseDto registerNote(NoteRequestDto noteRequestDto) throws SQLException {
-        Note note = noteMapper.toEntity(noteRequestDto);
-        return noteMapper.toResponseDto(noteRepository.registerNote(note));
+        Note note = noteMapper.forEntity(noteRequestDto);
+        return noteMapper.forResponseDto(noteRepository.registerNote(note));
     }
 }

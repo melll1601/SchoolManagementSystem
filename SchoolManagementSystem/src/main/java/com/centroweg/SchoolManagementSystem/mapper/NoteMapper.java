@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class NoteMapper {
 
-    public Note toEntity(NoteRequestDto noteRequestDto){
+    public Note forEntity(NoteRequestDto noteRequestDto){
         return new Note(
                 noteRequestDto.studentId(),
                 noteRequestDto.lessonId(),
@@ -16,7 +16,7 @@ public class NoteMapper {
         );
     }
 
-    public NoteResponseDto toResponseDto(Note note){
+    public NoteResponseDto forResponseDto(Note note){
         return new NoteResponseDto(
                 note.getId(),
                 note.getStudentId(),
