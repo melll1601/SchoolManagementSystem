@@ -95,4 +95,39 @@ public class StudentRepository {
         return null;
     }
 
+    public void update(Student student) throws SQLException{
+        String query = """
+                UPDATE Student
+                SET name = ?, email = ?, registration = ?, birth_date = ?
+                WHERE id = ?
+                """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, student.getName());
+            stmt.setString(2, student.getEmail());
+            stmt.setString(3, student.getRegistration());
+            stmt.setDate(4, Date.valueOf(student.getBirth_date()));
+            stmt.setLong(5, student.getId());
+            stmt.executeUpdate();
+        }
+    }
+    public boolean delete(long id) throws SQLException {
+
+        String query = """
+            DELETE FROM Student
+            WHERE id = ?
+            """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, id);
+            int linhasAfetadas = stmt.executeUpdate();
+
+            return linhasAfetadas > 0;
+        }
+    }
+
 }

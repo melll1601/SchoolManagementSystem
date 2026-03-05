@@ -87,4 +87,38 @@ public class TeacherRepository {
         }
         return null;
     }
+
+    public void update(Teacher teacher) throws SQLException{
+        String query = """
+                UPDATE Teacher
+                SET name = ?, email = ?, discipline = ?
+                WHERE id = ?
+                """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, teacher.getName());
+            stmt.setString(2, teacher.getEmail());
+            stmt.setString(3, teacher.getDiscipline());
+            stmt.setLong(4, teacher.getId());
+            stmt.executeUpdate();
+        }
+    }
+    public boolean delete(long id) throws SQLException {
+
+        String query = """
+            DELETE FROM Teacher
+            WHERE id = ?
+            """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, id);
+            int linhasAfetadas = stmt.executeUpdate();
+
+            return linhasAfetadas > 0;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.centroweg.SchoolManagementSystem.repository;
 
 import com.centroweg.SchoolManagementSystem.domain.Course;
+import com.centroweg.SchoolManagementSystem.domain.Lesson;
 import com.centroweg.SchoolManagementSystem.domain.Student;
 import com.centroweg.SchoolManagementSystem.util.ConnectionMySql;
 import org.springframework.stereotype.Repository;
@@ -81,5 +82,39 @@ public class CourseRepository {
             }
         }
         return null;
+    }
+
+    public void update(Course course) throws SQLException{
+        String query = """
+                UPDATE Course
+                SET name = ?, code = ?
+                WHERE id = ?
+                """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, course.getName());
+            stmt.setString(2, course.getCode());
+            stmt.setLong(3, course.getId());
+            stmt.executeUpdate();
+        }
+    }
+
+    public boolean delete(long id) throws SQLException {
+
+        String query = """
+            DELETE FROM Course
+            WHERE id = ?
+            """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, id);
+            int linhasAfetadas = stmt.executeUpdate();
+
+            return linhasAfetadas > 0;
+        }
     }
 }

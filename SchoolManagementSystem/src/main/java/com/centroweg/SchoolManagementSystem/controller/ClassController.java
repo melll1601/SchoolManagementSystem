@@ -1,7 +1,9 @@
 package com.centroweg.SchoolManagementSystem.controller;
 
+import com.centroweg.SchoolManagementSystem.domain.ClassSchool;
 import com.centroweg.SchoolManagementSystem.dto.schoolclass.ClassRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.schoolclass.ClassResponseDto;
+import com.centroweg.SchoolManagementSystem.dto.teacher.TeacherRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.teacher.TeacherResponseDto;
 import com.centroweg.SchoolManagementSystem.service.ClassService;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +46,28 @@ public class ClassController {
             return classService.searchById(id);
         } catch (SQLException error) {
             throw new RuntimeException(error.getMessage());
+        }
+    }
+
+    @PutMapping("/Class/{id}")
+    public ClassResponseDto update(
+            @PathVariable long id,
+            @RequestBody ClassRequestDto classRequestDto) {
+
+        try {
+            return classService.update(classRequestDto, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/Class/{id}")
+    public boolean delete(@PathVariable long id) {
+
+        try {
+            return classService.delete(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

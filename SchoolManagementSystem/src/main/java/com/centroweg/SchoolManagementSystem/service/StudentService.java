@@ -5,8 +5,11 @@ import com.centroweg.SchoolManagementSystem.dto.student.StudentRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.student.StudentResponseDto;
 import com.centroweg.SchoolManagementSystem.mapper.StudentMapper;
 import com.centroweg.SchoolManagementSystem.repository.StudentRepository;
+import com.centroweg.SchoolManagementSystem.util.ConnectionMySql;
 import org.springframework.stereotype.Service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -35,4 +38,18 @@ public class StudentService {
         Student student = studentRepository.searchById(id);
         return studentMapper.forResponseDto(student);
     }
+
+    public StudentResponseDto update(StudentRequestDto dto, long id) throws SQLException {
+
+        Student student = studentMapper.forEntity(dto);
+        student.setId(id);
+        studentRepository.update(student);
+
+        return studentMapper.forResponseDto(student);
+    }
+
+    public boolean delete(long id) throws SQLException {
+        return studentRepository.delete(id);
+    }
+
 }

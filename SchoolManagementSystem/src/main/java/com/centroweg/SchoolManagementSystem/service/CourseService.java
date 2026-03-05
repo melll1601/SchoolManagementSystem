@@ -4,6 +4,7 @@ import com.centroweg.SchoolManagementSystem.domain.Course;
 import com.centroweg.SchoolManagementSystem.domain.Student;
 import com.centroweg.SchoolManagementSystem.dto.course.CourseRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.course.CourseResponseDto;
+import com.centroweg.SchoolManagementSystem.dto.student.StudentRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.student.StudentResponseDto;
 import com.centroweg.SchoolManagementSystem.mapper.CourseMapper;
 import com.centroweg.SchoolManagementSystem.repository.CourseRepository;
@@ -37,4 +38,18 @@ public class CourseService {
         Course course = courseRepository.searchById(id);
         return courseMapper.forResponseDto(course);
     }
+
+    public CourseResponseDto update(CourseRequestDto dto, long id) throws SQLException {
+
+        Course course = courseMapper.forEntity(dto);
+        course.setId(id);
+        courseRepository.update(course);
+
+        return courseMapper.forResponseDto(course);
+    }
+
+    public boolean delete(long id) throws SQLException {
+        return courseRepository.delete(id);
+    }
+
 }

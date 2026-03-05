@@ -2,6 +2,7 @@ package com.centroweg.SchoolManagementSystem.repository;
 
 import com.centroweg.SchoolManagementSystem.domain.ClassStudent;
 import com.centroweg.SchoolManagementSystem.domain.Note;
+import com.centroweg.SchoolManagementSystem.domain.Student;
 import com.centroweg.SchoolManagementSystem.util.ConnectionMySql;
 import org.springframework.stereotype.Repository;
 
@@ -54,27 +55,68 @@ public class StudentClassRepository {
         return list;
     }
 
-    public ClassStudent searchById(Long id) throws SQLException{
+    public ClassStudent searchById(Long classId, Long studentId) throws SQLException {
+
         String query = """
-            SELECT classId, studentId
-            FROM ClassStudent
-            WHERE id = ?
+        SELECT classId, studentId
+        FROM ClassStudent
+        WHERE classId = ? AND studentId = ?
+        """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, classId);
+            stmt.setLong(2, studentId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new ClassStudent(
+                        rs.getLong("studentId"),
+                        rs.getLong("classId")
+                );
+            }
+        }
+
+        return null;
+    }
+
+    public void update(Long oldClassId,
+                       Long oldStudentId,
+                       ClassStudent classStudent) throws SQLException {
+
+        String query = """
+        UPDATE ClassStudent
+        SET classId = ?, studentId = ?
+        WHERE classId = ? AND studentId = ?
+        """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, classStudent.getClassId());
+            stmt.setLong(2, classStudent.getStudentId());
+            stmt.setLong(3, oldClassId);
+            stmt.setLong(4, oldStudentId);
+
+            stmt.executeUpdate();
+        }
+    }
+    public void delete(ClassStudent classStudent) throws SQLException {
+
+        String query = """
+            DELETE FROM ClassStudent
+            WHERE classId = ? AND studentId = ?
             """;
 
         try (Connection conn = ConnectionMySql.connect();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setLong(1, id);
-            ResultSet rs = stmt.executeQuery();
+            stmt.setLong(1, classStudent.getClassId());
+            stmt.setLong(2, classStudent.getStudentId());
 
-            if (rs.next()) {
-                return new ClassStudent(
-                        rs.getLong("classId"),
-                        rs.getLong("studentId")
-                );
-            }
+            stmt.executeUpdate();
         }
-        return null;
     }
-
 }

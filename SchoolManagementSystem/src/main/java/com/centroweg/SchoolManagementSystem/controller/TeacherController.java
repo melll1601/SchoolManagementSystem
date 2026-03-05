@@ -40,11 +40,33 @@ public class TeacherController {
     }
 
     @GetMapping("/Teacher/{id}")
-    public TeacherResponseDto searchById(@PathVariable Long id){
-        try{
+    public TeacherResponseDto searchById(@PathVariable Long id) {
+        try {
             return teacherService.searchById(id);
         } catch (SQLException error) {
             throw new RuntimeException(error.getMessage());
+        }
+    }
+
+    @PutMapping("/Teacher/{id}")
+    public TeacherResponseDto update(
+            @PathVariable long id,
+            @RequestBody TeacherRequestDto teacherRequestDto) {
+
+        try {
+            return teacherService.update(teacherRequestDto, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/Teacher/{id}")
+    public boolean delete(@PathVariable long id) {
+
+        try {
+            return teacherService.delete(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

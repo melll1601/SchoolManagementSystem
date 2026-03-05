@@ -2,13 +2,17 @@ package com.centroweg.SchoolManagementSystem.service;
 
 import com.centroweg.SchoolManagementSystem.domain.Student;
 import com.centroweg.SchoolManagementSystem.domain.Teacher;
+import com.centroweg.SchoolManagementSystem.dto.student.StudentRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.student.StudentResponseDto;
 import com.centroweg.SchoolManagementSystem.dto.teacher.TeacherRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.teacher.TeacherResponseDto;
 import com.centroweg.SchoolManagementSystem.mapper.TeacherMapper;
 import com.centroweg.SchoolManagementSystem.repository.TeacherRepository;
+import com.centroweg.SchoolManagementSystem.util.ConnectionMySql;
 import org.springframework.stereotype.Service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -36,4 +40,16 @@ public class TeacherService {
         return teacherMapper.forResponseDto(teacher);
     }
 
+    public TeacherResponseDto update(TeacherRequestDto dto, long id) throws SQLException {
+
+        Teacher teacher = teacherMapper.forEntity(dto);
+        teacher.setId(id);
+        teacherRepository.update(teacher);
+
+        return teacherMapper.forResponseDto(teacher);
+    }
+
+    public boolean delete(long id) throws SQLException {
+        return teacherRepository.delete(id);
+    }
 }

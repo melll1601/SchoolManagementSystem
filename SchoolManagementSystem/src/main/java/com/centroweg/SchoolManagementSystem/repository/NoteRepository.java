@@ -1,5 +1,6 @@
 package com.centroweg.SchoolManagementSystem.repository;
 
+import com.centroweg.SchoolManagementSystem.domain.ClassStudent;
 import com.centroweg.SchoolManagementSystem.domain.Lesson;
 import com.centroweg.SchoolManagementSystem.domain.Note;
 import com.centroweg.SchoolManagementSystem.domain.Student;
@@ -88,4 +89,40 @@ public class NoteRepository {
         }
         return null;
     }
+
+    public void update(Note note) throws SQLException{
+        String query = """
+                UPDATE Note
+                SET studentId = ?, lessonId = ?, value = ?
+                WHERE id = ?
+                """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, note.getStudentId());
+            stmt.setLong(2, note.getLessonId());
+            stmt.setDouble(3, note.getValue());
+            stmt.setLong(4, note.getId());
+            stmt.executeUpdate();
+        }
+    }
+
+    public boolean delete(long id) throws SQLException {
+
+        String query = """
+            DELETE FROM Note
+            WHERE id = ?
+            """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, id);
+            int linhasAfetadas = stmt.executeUpdate();
+
+            return linhasAfetadas > 0;
+        }
+    }
+
 }

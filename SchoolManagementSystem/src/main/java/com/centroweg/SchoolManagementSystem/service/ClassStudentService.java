@@ -1,7 +1,10 @@
 package com.centroweg.SchoolManagementSystem.service;
 
+import com.centroweg.SchoolManagementSystem.domain.ClassSchool;
 import com.centroweg.SchoolManagementSystem.domain.ClassStudent;
 import com.centroweg.SchoolManagementSystem.domain.Student;
+import com.centroweg.SchoolManagementSystem.dto.schoolclass.ClassRequestDto;
+import com.centroweg.SchoolManagementSystem.dto.schoolclass.ClassResponseDto;
 import com.centroweg.SchoolManagementSystem.dto.student.StudentResponseDto;
 import com.centroweg.SchoolManagementSystem.dto.studentclass.StudentClassRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.studentclass.StudentClassResponseDto;
@@ -32,8 +35,20 @@ public class ClassStudentService {
         return studentClassMapper.forListResponseDto(list);
     }
 
-    public StudentClassResponseDto searchById(Long id) throws SQLException{
-        ClassStudent classStudent = studentClassRepository.searchById(id);
+    public StudentClassResponseDto searchById(Long classId, Long studentId) throws SQLException {
+        ClassStudent classStudent = studentClassRepository.searchById(classId, studentId);
         return studentClassMapper.forResponseDto(classStudent);
+    }
+
+    public StudentClassResponseDto update(Long classId, Long studentId, StudentClassRequestDto dto) throws SQLException {
+        ClassStudent classStudent = studentClassMapper.forEntity(dto);
+        studentClassRepository.update(classId, studentId, classStudent);
+        return studentClassMapper.forResponseDto(classStudent);
+    }
+
+    public boolean delete(long classId, long studentId) throws SQLException {
+        ClassStudent classStudent = new ClassStudent(studentId, classId);
+        studentClassRepository.delete(classStudent);
+        return true;
     }
 }

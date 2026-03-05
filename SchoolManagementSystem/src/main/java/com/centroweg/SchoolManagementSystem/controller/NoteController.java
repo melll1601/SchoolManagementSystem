@@ -2,6 +2,7 @@ package com.centroweg.SchoolManagementSystem.controller;
 
 import com.centroweg.SchoolManagementSystem.dto.note.NoteRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.note.NoteResponseDto;
+import com.centroweg.SchoolManagementSystem.dto.teacher.TeacherRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.teacher.TeacherResponseDto;
 import com.centroweg.SchoolManagementSystem.service.NoteService;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,28 @@ public class NoteController {
             return noteService.searchById(id);
         } catch (SQLException error) {
             throw new RuntimeException(error.getMessage());
+        }
+    }
+
+    @PutMapping("/Note/{id}")
+    public NoteResponseDto update(
+            @PathVariable long id,
+            @RequestBody NoteRequestDto noteRequestDto) {
+
+        try {
+            return noteService.update(noteRequestDto, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/Note/{id}")
+    public boolean delete(@PathVariable long id) {
+
+        try {
+            return noteService.delete(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

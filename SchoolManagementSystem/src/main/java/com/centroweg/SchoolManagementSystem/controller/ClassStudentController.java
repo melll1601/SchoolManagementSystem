@@ -16,6 +16,7 @@ import java.util.Queue;
 @RequestMapping("/School")
 public class ClassStudentController {
     private final ClassStudentService classStudentService;
+
     public ClassStudentController(ClassStudentService classStudentService) {
         this.classStudentService = classStudentService;
     }
@@ -23,9 +24,9 @@ public class ClassStudentController {
     @PostMapping("/ClassStudent")
     public StudentClassResponseDto registerClassStudent(
             @RequestBody StudentClassRequestDto studentClassRequestDto
-            ) {
+    ) {
 
-        try{
+        try {
             return classStudentService.registerStudentClass(studentClassRequestDto);
         } catch (SQLException error) {
             throw new RuntimeException(error.getMessage());
@@ -41,12 +42,36 @@ public class ClassStudentController {
         }
     }
 
-    @GetMapping("/ClassStudent/{id}")
-    public StudentClassResponseDto searchById(@PathVariable Long id){
-        try{
-            return classStudentService.searchById(id);
+    @GetMapping("/class-student/{classId}/{studentId}")
+    public StudentClassResponseDto searchById(@PathVariable Long classId, @PathVariable Long studentId) {
+        try {
+            return classStudentService.searchById(classId, studentId);
         } catch (SQLException error) {
             throw new RuntimeException(error.getMessage());
+        }
+    }
+
+    @PutMapping("/{classId}/{studentId}")
+    public StudentClassResponseDto update(@PathVariable Long classId,
+                                          @PathVariable Long studentId,
+                                          @RequestBody StudentClassRequestDto dto) {
+
+        try {
+            return classStudentService.update(classId, studentId, dto);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
+    @DeleteMapping("/ClassStudent/{classId}/{studentId}")
+    public boolean delete(@PathVariable long classId,
+                          @PathVariable long studentId) {
+
+        try {
+            return classStudentService.delete(classId, studentId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
