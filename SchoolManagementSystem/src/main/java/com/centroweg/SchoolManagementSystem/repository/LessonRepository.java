@@ -1,10 +1,13 @@
 package com.centroweg.SchoolManagementSystem.repository;
 
 import com.centroweg.SchoolManagementSystem.domain.Lesson;
+import com.centroweg.SchoolManagementSystem.domain.Student;
 import com.centroweg.SchoolManagementSystem.util.ConnectionMySql;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class LessonRepository {
@@ -33,6 +36,56 @@ public class LessonRepository {
         }
 
         return lesson;
+    }
+
+    public List<Lesson> listLesson() throws SQLException{
+        List<Lesson> list = new ArrayList<>();
+
+        String query = """
+                SELECT id, classId, dateTime, subject
+                FROM Lesson
+                """;
+
+        try(Connection conn = ConnectionMySql.connect();
+        PreparedStatement stmt = conn.prepareStatement(query)){
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                list.add(new Lesson(
+                        rs.getLong("id"),
+                        rs.getLong("classId"),
+                        rs.getTimestamp("dateTime").toLocalDateTime(),
+                        rs.getString("subject")
+                ));
+            }
+        }
+
+        return list;
+    }
+
+    public Lesson searchById(Long id) throws SQLException{
+        String query = """
+            SELECT id, classId, dateTime, subject
+            FROM Lesson
+            WHERE id = ?
+            """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Lesson(
+                        rs.getLong("id"),
+                        rs.getLong("classId"),
+                        rs.getTimestamp("dateTime").toLocalDateTime(),
+                        rs.getString("subject")
+                );
+            }
+        }
+        return null;
     }
 
 }

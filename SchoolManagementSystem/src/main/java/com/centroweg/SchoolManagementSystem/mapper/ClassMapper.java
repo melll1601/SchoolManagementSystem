@@ -5,6 +5,10 @@ import com.centroweg.SchoolManagementSystem.dto.schoolclass.ClassRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.schoolclass.ClassResponseDto;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class ClassMapper {
 
@@ -23,5 +27,14 @@ public class ClassMapper {
                 classSchool.getCourseId(),
                 classSchool.getTeacherId()
         );
+    }
+
+    public List<ClassResponseDto> forListResponse(List<ClassSchool> classSchools) throws SQLException{
+        List<ClassResponseDto> list = new ArrayList<>();
+
+        for (ClassSchool classSchool : classSchools){
+            list.add(forResponseDto(classSchool));
+        }
+        return list;
     }
 }

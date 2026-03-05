@@ -5,6 +5,9 @@ import com.centroweg.SchoolManagementSystem.dto.student.StudentRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.student.StudentResponseDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class StudentMapper {
 
@@ -25,5 +28,14 @@ public class StudentMapper {
                 student.getRegistration(),
                 student.getBirth_date()
         );
+    }
+
+    public List<StudentResponseDto> forListResponseDto(List<Student> students) {
+        List<StudentResponseDto> list = new ArrayList<>();
+
+        for (Student student : students){
+            list.add(forResponseDto(student));
+        }
+        return list;
     }
 }

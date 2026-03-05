@@ -8,6 +8,7 @@ import com.centroweg.SchoolManagementSystem.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -23,5 +24,15 @@ public class StudentService {
     public StudentResponseDto registerStudent(StudentRequestDto studentRequestDto) throws SQLException {
         Student student = studentMapper.forEntity(studentRequestDto);
         return studentMapper.forResponseDto(studentRepository.registerStudent(student));
+    }
+
+    public List<StudentResponseDto> listStudents()throws SQLException{
+        List<Student> students = studentRepository.listStudent();
+        return studentMapper.forListResponseDto(students);
+    }
+
+    public StudentResponseDto searchById(Long id) throws SQLException{
+        Student student = studentRepository.searchById(id);
+        return studentMapper.forResponseDto(student);
     }
 }

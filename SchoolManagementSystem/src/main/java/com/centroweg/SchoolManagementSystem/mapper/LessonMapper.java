@@ -5,6 +5,9 @@ import com.centroweg.SchoolManagementSystem.dto.lesson.LessonRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.lesson.LessonResponseDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class LessonMapper {
 
@@ -23,5 +26,15 @@ public class LessonMapper {
                 classroom.getDateTime(),
                 classroom.getSubject()
         );
+    }
+
+    public List<LessonResponseDto> forListResponseDto(List<Lesson> lessons){
+        List<LessonResponseDto> list = new ArrayList<>();
+
+        for (Lesson lesson : lessons){
+            list.add(forResponseDto(lesson));
+        }
+
+        return list;
     }
 }

@@ -1,13 +1,16 @@
 package com.centroweg.SchoolManagementSystem.service;
 
 import com.centroweg.SchoolManagementSystem.domain.Lesson;
+import com.centroweg.SchoolManagementSystem.domain.Student;
 import com.centroweg.SchoolManagementSystem.dto.lesson.LessonRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.lesson.LessonResponseDto;
+import com.centroweg.SchoolManagementSystem.dto.student.StudentResponseDto;
 import com.centroweg.SchoolManagementSystem.mapper.LessonMapper;
 import com.centroweg.SchoolManagementSystem.repository.LessonRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class LessonService {
@@ -22,5 +25,15 @@ public class LessonService {
     public LessonResponseDto registerLesson(LessonRequestDto lessonRequestDto) throws SQLException {
         Lesson lesson = lessonMapper.forEntity(lessonRequestDto);
         return lessonMapper.forResponseDto(lessonRepository.registerLesson(lesson));
+    }
+
+    public List<LessonResponseDto> listLesson() throws SQLException {
+        List<Lesson> list = lessonRepository.listLesson();
+        return lessonMapper.forListResponseDto(list);
+    }
+
+    public LessonResponseDto searchById(Long id) throws SQLException{
+        Lesson lesson = lessonRepository.searchById(id);
+        return lessonMapper.forResponseDto(lesson);
     }
 }

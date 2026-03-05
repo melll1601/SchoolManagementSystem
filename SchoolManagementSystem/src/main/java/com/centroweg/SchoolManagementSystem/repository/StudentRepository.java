@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class StudentRepository {
@@ -41,4 +43,56 @@ public class StudentRepository {
 
         return student;
     }
+
+    public List<Student> listStudent() throws SQLException{
+        List<Student> students = new ArrayList<>();
+
+        String query = """
+                SELECT id, name, email, registration, birth_date
+                FROM Student
+                """;
+
+        try(Connection conn = ConnectionMySql.connect();
+        PreparedStatement stmt = conn.prepareStatement(query)){
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                students.add(new Student(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("registration"),
+                        rs.getDate("birth_date").toLocalDate()
+                ));
+            }
+        }
+        return students;
+    }
+
+    public Student searchById(Long id) throws SQLException{
+        String query = """
+            SELECT id, name, email, registration, birth_date
+            FROM Student
+            WHERE id = ?
+            """;
+
+        try (Connection conn = ConnectionMySql.connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Student(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("registration"),
+                        rs.getDate("birth_date").toLocalDate()
+                );
+            }
+        }
+        return null;
+    }
+
 }

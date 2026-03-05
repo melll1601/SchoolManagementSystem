@@ -5,6 +5,9 @@ import com.centroweg.SchoolManagementSystem.dto.note.NoteRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.note.NoteResponseDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class NoteMapper {
 
@@ -23,5 +26,15 @@ public class NoteMapper {
                 note.getLessonId(),
                 note.getValue()
         );
+    }
+
+    public List<NoteResponseDto> forListResponse(List<Note> notes){
+        List<NoteResponseDto> list = new ArrayList<>();
+
+        for (Note note : notes){
+            list.add(forResponseDto(note));
+        }
+
+        return list;
     }
 }

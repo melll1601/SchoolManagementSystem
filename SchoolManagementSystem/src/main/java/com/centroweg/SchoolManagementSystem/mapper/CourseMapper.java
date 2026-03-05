@@ -5,6 +5,9 @@ import com.centroweg.SchoolManagementSystem.dto.course.CourseRequestDto;
 import com.centroweg.SchoolManagementSystem.dto.course.CourseResponseDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class CourseMapper {
 
@@ -21,5 +24,14 @@ public class CourseMapper {
                 course.getName(),
                 course.getCode()
         );
+    }
+
+    public List<CourseResponseDto> forListResponseDto(List<Course> courses){
+        List <CourseResponseDto> list = new ArrayList<>();
+
+        for (Course course : courses){
+            list.add(forResponseDto(course));
+        }
+        return list;
     }
 }
